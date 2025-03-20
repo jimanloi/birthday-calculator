@@ -15,15 +15,9 @@ const todayAge = (birthday) => {
     const birthdayValue = new Date(dom.birthdayInput.value);
     const todayValue = new Date();
 
-    //Format the dates to DD/MM/YYYY
-
-    // const formatter = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    // const formattedBirthday = formatter.format(birthdayValue);
-    // const formattedToday = formatter.format(todayValue)
-    // console.log(formattedBirthday);
-    // console.log(formattedToday);
-    // const [ birthDay, birthMonth, birthYear] = formattedBirthday.split('/').map(Number);
-    // const [ today, thisMonth, thisYear] = formattedToday.split('/').map(Number);
+    if (isNaN(birthdayValue.getTime())) {
+        return 'Please enter a valid date.';
+    }
 
     //Get data from dates
 
@@ -36,19 +30,41 @@ const todayAge = (birthday) => {
 
     //Calculate the age
 
-    //if the birthday is in the future
-
     let message = '';
     let currentAge = thisYear - birthYear;
 
+    //if the birthday is in the future
+    // if (
+    //     thisYear < birthYear ||
+    //     (thisYear === birthYear && birthMonth > thisMonth) ||
+    //     (thisYear === birthYear && birthMonth === thisMonth && birthDay > today)
+    // ) {
+    //     message = 'You are not born yet.';
+    // }
+
+    //Update current age when birthday is later in the year
+
     if (
-        thisYear < birthYear ||
-        (thisYear === birthYear && birthMonth > thisMonth) ||
-        (thisYear === birthYear && birthMonth === thisMonth && birthDay > today)
+        (thisYear > birthYear &&
+            (thisMonth < birthMonth ||
+                (thisMonth === birthMonth && birthDay > today))) ||
+        (thisYear === birthYear && thisMonth === birthMonth && birthDay > today)
     ) {
+        currentAge--;
+    }
+
+    // Read current age
+
+    // Not born
+
+    if (currentAge < 0) {
         message = 'You are not born yet.';
     }
 
+    // less than 1 year old
+    if (currentAge === 0) {
+        message = 'You are still a baby!';
+    }
     // Today is the birth day.
     if (
         thisYear === birthYear &&
@@ -56,29 +72,6 @@ const todayAge = (birthday) => {
         birthDay === today
     ) {
         message = 'Welcome to the world!';
-    }
-
-    // Less than 1 year old
-    if (
-        currentAge === 0 ||
-        (thisYear === birthYear && thisMonth > birthMonth) ||
-        (thisYear === birthYear &&
-            thisMonth === birthMonth &&
-            today > birthDay) ||
-        (thisYear === birthYear + 1 && birthMonth < thisMonth) ||
-        (thisYear === birthYear + 1 &&
-            birthMonth === thisMonth &&
-            birthDay < today)
-    ) {
-        message = 'You are still a baby!';
-    }
-
-    if (
-        thisYear > birthYear &&
-        (thisMonth < birthMonth ||
-            (thisMonth === birthMonth && birthDay < today))
-    ) {
-        currentAge = currentAge - 1;
     }
 
     // 1 year old
@@ -93,7 +86,11 @@ const todayAge = (birthday) => {
     }
 
     // Add happy birthday message if today is the birthday
-    if (today === birthDay && thisMonth === birthMonth) {
+    if (
+        thisYear >= birthYear &&
+        today === birthDay &&
+        thisMonth === birthMonth
+    ) {
         message = 'Happy Birthday! ' + message;
     }
 
