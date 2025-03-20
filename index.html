@@ -1,13 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="./css/index.css" />
-        <title>JS starter</title>
+        <title>Birthday Calculator</title>
     </head>
     <body>
-        <script src="./src/index.js"></script>
+        <header>
+            <h1>How old am I?</h1>
+        </header>
+        <main>
+            <div class="container">
+                <p>Enter your birthday</p>
+                <input type="date" id="birthday" />
+                <button id="enter-button">Enter</button>
+            </div>
+            <p id="display"></p>
+        </main>
+        <script type="module" src="./src/index.js"></script>
     </body>
 </html>
